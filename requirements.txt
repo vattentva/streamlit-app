@@ -1,0 +1,7 @@
+streamlit
+matplotlib
+openai-whisper
+yt_dlp
+pydub
+# pandas_profiling
+# streamlit_pandas_profiling
