@@ -1,7 +1,17 @@
 streamlit
-matplotlib
-openai-whisper
-yt_dlp
-pydub
+streamlit-authenticator
+# streamlit-shap
+# streamlit-elements==0.1.*
+# streamlit-aggrid #==1.0.5
+# streamlit-option-menu #==0.3.13
+# streamlit-tags #==1.2.8
+
+# matplotlib
+# scikit-learn
+# xgboost
 # pandas_profiling
 # streamlit_pandas_profiling
+
+# openai-whisper
+# yt_dlp
+# dashboard_utils

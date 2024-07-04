@@ -1,40 +1,46 @@
 import streamlit as st
-import pandas as pd
-import numpy as np
-from config.logging import setup
-import os
+import streamlit_authenticator as stauth
 
-@st.cache_resource
-def init():
-    setup()
+import yaml
+from yaml.loader import SafeLoader
+# from config.logging import setup
 
-def show():
-    st.title('Customizing the theme of Streamlit apps')
+yaml_path = "users.yaml"
+with open(yaml_path) as file:
+    config = yaml.load(file, Loader=SafeLoader)
 
-    st.write('Contents of the `.streamlit/config.toml` file of this app')
+authenticator = stauth.Authenticate(
+    credentials=config['credentials'],
+    cookie_name=config['cookie']['name'],
+    cookie_key=config['cookie']['key'],
+    cookie_expiry_days=config['cookie']['expiry_days'],
+)
 
-    st.code("""
-    [theme]
-    primaryColor="#F39C12"
-    backgroundColor="#2E86C1"
-    secondaryBackgroundColor="#AED6F1"
-    textColor="#FFFFFF"
-    font="monospace"
-    """)
+authenticator.login(location='sidebar')
+if st.session_state["authentication_status"]:
+    ## ログイン成功
+    with st.sidebar:
+        st.markdown(f'## Welcome *{st.session_state["name"]}*')
+        authenticator.logout('Logout', 'sidebar')
+        st.divider()
+    st.success('successfully login!', icon="✅")
 
-    number = st.sidebar.slider('Select a number:', 0, 10, 5)
-    st.write('Selected number from slider widget is:', number)
+elif st.session_state["authentication_status"] is False:
+    ## ログイン成功ログイン失敗
+    st.error('Username/password is incorrect')
+    # st.stop()
 
-    # Everything is accessible via the st.secrets dict:
-    st.write("DB username:", st.secrets["db_username"])
-    st.write("DB password:", st.secrets["db_password"])
-    st.write("My cool secrets:", st.secrets["my_cool_secrets"]["things_i_like"])
+elif st.session_state["authentication_status"] is None:
+    ## デフォルト
+    st.warning('Please enter your username and password')
 
-    # And the root-level secrets are also accessible as environment variables:
-    st.write(
-        "Has environment variables been set:",
-        os.environ["db_username"] == st.secrets["db_username"],
-    )
 
-init()
-show()
+with st.sidebar:
+    st.write(st.session_state)
+
+# @st.cache_resource
+# def main():
+#     setup()
+
+# if __name__ == '__main__':
+#     main()
