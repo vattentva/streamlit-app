@@ -1,5 +1,13 @@
+# https://docs.streamlit.io/develop/api-reference/configuration/config.toml
+# 
+# streamlit config show
+
 [client]
 showErrorDetails = false
 
 [theme]
-font="monospace"
+base="dark"
+# primaryColor="#004a55"
+# backgroundColor="#fafafa"
+# textColor="#222"
+font="sans serif"
