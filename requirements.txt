@@ -6,6 +6,15 @@ streamlit-authenticator
 # streamlit-option-menu #==0.3.13
 # streamlit-tags #==1.2.8
 
+openai
+# langchain
+# langchain_community
+# langchain_openai
+# transformers
+# tensorflow
+# h5py
+# keras==2.11
+# tf-keras
 # matplotlib
 # scikit-learn
 # xgboost

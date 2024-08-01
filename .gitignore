@@ -1,3 +1,11 @@
+.streamlit/secrets.toml
+*.ipynb
+*.csv
+*.json
+frontend/
+log/
+pages/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

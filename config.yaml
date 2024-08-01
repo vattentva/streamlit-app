@@ -1,0 +1,26 @@
+cookie:
+  expiry_days: 30
+  key: some_signature_key
+  name: some_cookie_name
+credentials:
+  usernames:
+    jsmith:
+      email: jsmith@gmail.com
+      failed_login_attempts: 0
+      logged_in: false
+      name: John Smith
+      password: $2b$12$TgEKCSpitbwXPR3wWr6tmuqS.5MwjxIfmuAYLOQyRp1vRPfaA.9ze
+    rbriggs:
+      email: rbriggs@gmail.com
+      failed_login_attempts: 0
+      logged_in: false
+      name: Rebecca Briggs
+      password: $2b$12$5yZgxCn8LGhjDLdgkr88/uM9h64h9n6jPEoHXdd.DoGouPv6Lblpi
+    steven:
+      email: steven@gmail.com
+      logged_in: false
+      name: Steven Wilson
+      password: $2b$12$VwrMrayFNrmEFXezFMZq1uCf9p0TPVVA1IBJ1p38ndEz2GV4Paqnq
+pre-authorized:
+  emails:
+  - melsby@gmail.com

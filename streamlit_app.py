@@ -1,46 +1,25 @@
 import streamlit as st
-import streamlit_authenticator as stauth
 
-import yaml
-from yaml.loader import SafeLoader
-# from config.logging import setup
+# report_1 = st.Page("reports/DataFrame_Demo.py")
+# report_2 = st.Page("reports/Mapping_Demo.py")
+# report_3 = st.Page("reports/Plotting_Demo.py")
 
-yaml_path = "users.yaml"
-with open(yaml_path) as file:
-    config = yaml.load(file, Loader=SafeLoader)
+# tool_1 = st.Page("page_1.py", title="CSVデータ可視化くん", icon=":material/add_circle:")
 
-authenticator = stauth.Authenticate(
-    credentials=config['credentials'],
-    cookie_name=config['cookie']['name'],
-    cookie_key=config['cookie']['key'],
-    cookie_expiry_days=config['cookie']['expiry_days'],
+# auth_1 = st.Page("auth_step1.py", title="Auth Intro")
+# auth_2 = st.Page("auth_step2.py", title="User & Password")
+
+llm1 = st.Page("llm/basic_chat_app.py", title="Chat Demo")
+login = st.Page("login.py", title="Login")
+
+pg = st.navigation(
+    {
+        "LLM": [llm1],
+        # "Reports": [report_1, report_2, report_3],
+        # "Tools": [tool_1],
+        # "Auth": [auth_1, auth_2],
+        "Streamlit Auth": [login],
+        # "Transformers": [tf_1],
+    }
 )
-
-authenticator.login(location='sidebar')
-if st.session_state["authentication_status"]:
-    ## ログイン成功
-    with st.sidebar:
-        st.markdown(f'## Welcome *{st.session_state["name"]}*')
-        authenticator.logout('Logout', 'sidebar')
-        st.divider()
-    st.success('successfully login!', icon="✅")
-
-elif st.session_state["authentication_status"] is False:
-    ## ログイン成功ログイン失敗
-    st.error('Username/password is incorrect')
-    # st.stop()
-
-elif st.session_state["authentication_status"] is None:
-    ## デフォルト
-    st.warning('Please enter your username and password')
-
-
-with st.sidebar:
-    st.write(st.session_state)
-
-# @st.cache_resource
-# def main():
-#     setup()
-
-# if __name__ == '__main__':
-#     main()
+pg.run()
