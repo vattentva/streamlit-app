@@ -20,7 +20,7 @@ with st.form('my_form'):
     text = st.text_area('Enter text:', default_prompt)
     submitted = st.form_submit_button('Submit')
 
-    if submitted and openai_api_key.startswith('sk-'):
+    if submitted:
         generate_response(text)
 
 debug()
