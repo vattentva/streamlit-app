@@ -5,14 +5,15 @@ import pytz
 def setup():
     logging.basicConfig(
         level=logging.DEBUG,  # デバッグレベルの設定
-        format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',  # ログのフォーマット
+        format='%(asctime)s - %(levelname)s - %(message)s',  # ログのフォーマット
+        datefmt='%Y-%m-%d %H:%M:%S',  # タイムスタンプのフォーマット
         handlers=[
             logging.StreamHandler()  # コンソールへの出力
         ]
     )
     # ロガーを取得
     logger = logging.getLogger(__name__)
-    logging.info("logging config setup")
+    logger.info("logging config setup")
 
     return logger
 

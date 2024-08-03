@@ -11,14 +11,14 @@ app(title='🦜🔗 Quickstart App')
 openai_api_key = st.secrets["OPENAI_API_KEY"]
 
 def generate_response(input_text):
+    log.info('='*100)
     try:
         llm = OpenAI(temperature=0.7, api_key=openai_api_key)
         st.markdown(llm(input_text))
     except Exception as e:
         st.error('error')
-        log.info('='*100)
         log.error(e)
-        log.info('='*100)
+    log.info('='*100)
 
 with st.form('my_form'):
     default_prompt = 'シンギュラリティの到来はいつですか？'
