@@ -10,5 +10,11 @@ def setup():
             logging.StreamHandler()
         ]
     )
-
     logging.info("logging config setup")
+
+def _info(msg):
+    logging.info(msg)
+
+def _error(msg):
+    logging.error(msg)
+

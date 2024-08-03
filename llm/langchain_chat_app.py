@@ -2,6 +2,7 @@ import streamlit as st
 from langchain.llms import OpenAI
 from config.auth import init_authenticator
 from views.common import app, debug
+from config import log
 
 app(title='🦜🔗 Quickstart App')
 
@@ -13,7 +14,8 @@ def generate_response(input_text):
         llm = OpenAI(temperature=0.7, api_key=openai_api_key)
         st.markdown(llm(input_text))
     except Exception as e:
-        st.error(f'Error: {e}')
+        st.error('error')
+        log._error(e)
 
 with st.form('my_form'):
     default_prompt = 'シンギュラリティの到来はいつですか？'
