@@ -4,7 +4,7 @@ import pytz
 
 def setup():
     logging.basicConfig(
-        level=logging.DEBUG,  # デバッグレベルの設定
+        level=logging.INFO,  # デバッグレベルの設定
         format='%(asctime)s - %(levelname)s - %(message)s',  # ログのフォーマット
         datefmt='%Y-%m-%d %H:%M:%S',  # タイムスタンプのフォーマット
         handlers=[
