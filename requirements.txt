@@ -7,9 +7,9 @@ streamlit-authenticator
 # streamlit-tags #==1.2.8
 
 openai
-# langchain
-# langchain_community
-# langchain_openai
+langchain
+langchain_community
+langchain_openai
 # transformers
 # tensorflow
 # h5py
@@ -21,6 +21,7 @@ openai
 # pandas_profiling
 # streamlit_pandas_profiling
 
+supabase
 # openai-whisper
 # yt_dlp
 # dashboard_utils

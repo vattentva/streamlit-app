@@ -1,23 +1,9 @@
 import streamlit as st
 import openai
 from config.auth import init_authenticator
+from views.common import app, debug
 
-if st.secrets["APP_ENV"] == "development":
-    st.write(st.session_state)
-
-st.title("ChatGPT-like clone")
-
-authenticator = init_authenticator()
-if st.session_state['authentication_status']:
-    with st.sidebar:
-        st.write(f'ログイン名： *{st.session_state["name"]}*')
-        authenticator.logout(button_name='ログアウト')
-        st.divider()
-else:
-    st.write('TODO: 説明文')
-    st.page_link("login.py", label="ログインはこちら")
-
-    st.stop()
+app(title='ChatGPT like App')
 
 client = openai.OpenAI(api_key=st.secrets["OPENAI_API_KEY"])
 
@@ -60,3 +46,5 @@ if prompt := st.chat_input("ChatDemoにメッセージを送信する"):
 
     # Add assistant response to chat history
     st.session_state.messages.append({"role": "assistant", "content": response})
+
+debug()
