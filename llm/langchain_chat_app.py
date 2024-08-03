@@ -15,7 +15,7 @@ def generate_response(input_text):
         st.markdown(llm(input_text))
     except Exception as e:
         st.error('error')
-        log._error(e)
+        log._info(e)
 
 with st.form('my_form'):
     default_prompt = 'シンギュラリティの到来はいつですか？'
