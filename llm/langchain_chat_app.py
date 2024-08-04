@@ -1,12 +1,8 @@
-from datetime import datetime
 import streamlit as st
 from langchain.llms import OpenAI
-from config.auth import init_authenticator
-from utils.helper import get_client_ip
 from utils.supabase.SubmitsTable import SubmitsTable
 from views.common import app, debug
 from config.log import setup
-from utils.supabase import SupabaseClient
 
 log = setup()
 app(title='🦜🔗 Quickstart App')
