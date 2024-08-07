@@ -4,6 +4,10 @@
 
 [client]
 showErrorDetails = false
+toolbarMode = "minimal"
+
+[browser]
+gatherUsageStats = false
 
 [theme]
 base="dark"
