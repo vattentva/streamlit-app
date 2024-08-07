@@ -8,8 +8,8 @@ class OpenAi:
     def __init__(self, system_message='You are a helpful assistant.'):
         self._system_message = system_message
         self.gpt_models = [
-            # 'gpt-4o',
             'gpt-4o-mini',
+            # 'gpt-4o',
             # 'gpt-3.5-turbo'
         ]
 
@@ -25,14 +25,11 @@ class OpenAi:
             st.session_state.costs = []
 
     def select_model(self):
-        model = st.sidebar.radio('Choose a model', self.gpt_models)
+        model = st.sidebar.radio('GPT Model', self.gpt_models)
         
-        temperature = st.sidebar.slider(
-            'Temperature',
-            min_value=0.0,
-            max_value=2.0,
-            value=0.0,
-            step=0.01
+        temperature = st.sidebar.slider('Temperature',
+            min_value=0.0, max_value=2.0,
+            value=0.0, step=0.01
         )
         return ChatOpenAI(temperature=temperature, model=model)
 

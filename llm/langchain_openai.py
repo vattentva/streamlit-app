@@ -11,27 +11,29 @@ from langchain.schema import (SystemMessage, HumanMessage, AIMessage)
 from langchain.callbacks import get_openai_callback
 
 app(title='LangChain Model Chat')
+st.markdown('**回答は必ずしも正しいとは限りません。重要な情報は確認するようにしてください。**')
 st.sidebar.title("Options")
 
-# カウントの最大値を設定
-MAX_CALLS = 10
-# セッションの初期化
-if "call_count" not in st.session_state:
-    st.session_state.call_count = 0
+client = SubmitsTable()
+
+# API呼び出しの最大値を設定
+MAX_CALLS = st.secrets.get('MAX_CALLS', 5)
+today_call_count = client.select_usage_count()
+st.write(f"Usage: {today_call_count} / {MAX_CALLS}")
+if today_call_count > MAX_CALLS:
+    st.info("使用回数が制限を超えました。")
+    st.stop()
 
 chat_model = OpenAi()
 llm = chat_model.select_model()
 
 # ユーザーの入力を監視
-st.markdown('**回答は必ずしも正しいとは限りません。重要な情報は確認するようにしてください。**')
-
 if user_input := st.chat_input("メッセージを送信する"):
     st.session_state.messages.append(HumanMessage(content=user_input))
-    with st.spinner("ChatGPT is typing ..."):
+    with st.spinner("chat model is typing ..."):
         answer, handler = chat_model.get_answer(llm, st.session_state.messages)
     st.session_state.messages.append(AIMessage(content=answer))
 
-    client = SubmitsTable()
     client.insert_prompt(
         type=2,
         prompt=user_input,
@@ -43,7 +45,7 @@ if user_input := st.chat_input("メッセージを送信する"):
         completion_tokens=handler.completion_tokens,
     )
 
-    st.session_state.call_count += 1
+    today_call_count = client.select_usage_count()
 
 # チャット履歴の表示
 messages = st.session_state.get('messages', [])
@@ -57,8 +59,6 @@ for message in messages:
     # else:  # isinstance(message, SystemMessage):
     #     st.write(f"System message: {message.content}")
 
-# カウントの表示
-st.sidebar.write(f"Usage: {st.session_state.call_count} / {MAX_CALLS}")
 chat_model.init_message()
 
 debug()

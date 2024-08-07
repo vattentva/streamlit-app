@@ -9,6 +9,9 @@ class SupabaseClient:
         self.table_name = table_name
         self.client: Client = create_client(self.url, self.key)
 
+    def get_client(self):
+        return self.client.table(self.table_name)
+    
     def select_all(self):
         """テーブルから全てのデータを選択して返す"""
         try:
