@@ -7,8 +7,12 @@ def app(title='', top=False):
     authenticator = init_authenticator()
     if st.session_state['authentication_status']:
         if top:
-            st.page_link("llm/basic_chat_app.py", label="Chat App Clone")
-            st.page_link("llm/langchain_chat_app.py", label="Langchain QuickStart")
+            pages = [
+                { 'path': 'llm/langchain_openai.py', 'label': 'LangChain Chat Model'}
+            ]
+            for page in pages:
+                st.page_link(page['path'], label=page['label'])
+
         with st.sidebar:
             st.write(f'User name: *{st.session_state["name"]}*')
             authenticator.logout(button_name='ログアウト')

@@ -14,24 +14,22 @@ app(title='LangChain Model Chat')
 st.sidebar.title("Options")
 
 # カウントの最大値を設定
-MAX_CALLS = 5
+MAX_CALLS = 10
 # セッションの初期化
 if "call_count" not in st.session_state:
     st.session_state.call_count = 0
 
 chat_model = OpenAi()
-chat_model.init_message()
 llm = chat_model.select_model()
 
 # ユーザーの入力を監視
-user_input = st.chat_input("メッセージを送信する")
 st.markdown('**回答は必ずしも正しいとは限りません。重要な情報は確認するようにしてください。**')
-if user_input:
+
+if user_input := st.chat_input("メッセージを送信する"):
     st.session_state.messages.append(HumanMessage(content=user_input))
     with st.spinner("ChatGPT is typing ..."):
         answer, handler = chat_model.get_answer(llm, st.session_state.messages)
     st.session_state.messages.append(AIMessage(content=answer))
-    st.session_state.costs.append(handler.total_cost)
 
     client = SubmitsTable()
     client.insert_prompt(
@@ -59,13 +57,8 @@ for message in messages:
     # else:  # isinstance(message, SystemMessage):
     #     st.write(f"System message: {message.content}")
 
-costs = st.session_state.get('costs', [])
-st.sidebar.markdown("## Costs")
-st.sidebar.markdown(f"**Total cost: ${sum(costs):.5f}**")
-for cost in costs:
-    st.sidebar.markdown(f"- ${cost:.5f}")
-
 # カウントの表示
 st.sidebar.write(f"Usage: {st.session_state.call_count} / {MAX_CALLS}")
+chat_model.init_message()
 
 debug()
