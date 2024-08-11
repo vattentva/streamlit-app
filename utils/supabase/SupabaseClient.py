@@ -3,11 +3,13 @@ from supabase import create_client, Client
 
 class SupabaseClient:
     def __init__(self, table_name: str):
-        # SupabaseのURLとAPIキーを設定
-        self.url: str = st.secrets.get('SUPABASE_URL', '')
-        self.key: str = st.secrets.get('SUPABASE_KEY', '')
-        self.table_name = table_name
-        self.client: Client = create_client(self.url, self.key)
+        try:
+            self.url: str = st.secrets.get('SUPABASE_URL', '')
+            self.key: str = st.secrets.get('SUPABASE_KEY', '')
+            self.table_name = table_name
+            self.client: Client = create_client(self.url, self.key)
+        except Exception as e:
+            st.error(f"Error initial db client: {e}")
 
     def get_client(self):
         return self.client.table(self.table_name)
