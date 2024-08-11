@@ -4,11 +4,7 @@ from views.common import app, debug
 from config.log import setup
 from llm.langchain.chat_models.OpenAi import OpenAi
 
-# from langchain.llms import OpenAI
-# from langchain_openai import ChatOpenAI
-from langchain.chat_models import ChatOpenAI
 from langchain.schema import (SystemMessage, HumanMessage, AIMessage)
-from langchain.callbacks import get_openai_callback
 
 app(title='LangChain Model Chat')
 st.markdown('**回答は必ずしも正しいとは限りません。重要な情報は確認するようにしてください。**')
