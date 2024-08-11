@@ -4,12 +4,11 @@ import streamlit as st
 hide_streamlit_style = """
     <style>
     #MainMenu {visibility: hidden;}
-    .styles_terminalButton__JBj5T {visibility: hidden;}
     header {visibility: hidden;}
     footer {visibility: hidden;}
     </style>
     """
-st.markdown(hide_streamlit_style, unsafe_allow_html=True)
+# st.markdown(hide_streamlit_style, unsafe_allow_html=True)
 
 # report_1 = st.Page("reports/DataFrame_Demo.py")
 # report_2 = st.Page("reports/Mapping_Demo.py")
