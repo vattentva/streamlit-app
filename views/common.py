@@ -26,5 +26,5 @@ def app(title='', top=False):
             st.stop()
 
 def debug():
-    if st.secrets["APP_ENV"] == "development":
+    if st.secrets.get('APP_ENV', '') == "development":
         st.write(st.session_state)
