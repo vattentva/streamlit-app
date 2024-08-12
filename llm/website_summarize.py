@@ -1,7 +1,7 @@
 import logging
 import streamlit as st
 from llm.langchain.chat_models.OpenAi import OpenAi
-from utils import const
+from utils import const, helper
 from utils.supabase.SubmitsTable import SubmitsTable
 from views.common import app, debug
 
@@ -12,7 +12,10 @@ from bs4 import BeautifulSoup
 from langchain.schema import (SystemMessage, HumanMessage, AIMessage)
 
 app(title='Website Summarize')
+st.markdown('**WebサイトのURLを入力し、要約を行います。**')
+
 client = SubmitsTable()
+helper.api_call_limit(client=client, type=const.RequestType.SUMMARY.value)
 
 container = st.container()
 response_container = st.container()
@@ -63,7 +66,7 @@ with container:
     if url := st.text_input("URL: "):
         is_valid_url = validate_url(url)
         if not is_valid_url:
-            st.info('Please input valid url')
+            st.info('URLが正しくありません')
         else:
             content = get_content(url)
             if content:

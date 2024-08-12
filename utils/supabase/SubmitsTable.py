@@ -28,14 +28,14 @@ class SubmitsTable(SupabaseClient):
             'completion_tokens': callback_handler.completion_tokens,
         })
     
-    def select_usage_count(self):
+    def select_usage_count(self, type: int):
         start_of_day = datetime.now().replace(hour=0, minute=0, second=0, microsecond=0)
         end_of_day = start_of_day + timedelta(days=1)
 
         response = (
             self.get_client()
             .select("count", count="exact")
-            .eq("type", "2")
+            .eq("type", str(type))
             .eq("user_name", st.session_state.name)
             .eq("is_success", True)
             .gte("created_at", start_of_day.isoformat())
