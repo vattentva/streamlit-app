@@ -4,6 +4,10 @@ from langchain.schema import (SystemMessage, HumanMessage, AIMessage)
 from langchain_community.chat_models import ChatOpenAI
 from langchain_community.callbacks.manager import get_openai_callback
 from langchain_community.callbacks.openai_info import OpenAICallbackHandler
+from langchain.prompts import PromptTemplate
+from langchain.chains.summarize import load_summarize_chain
+from langchain_core.language_models import BaseLanguageModel
+from langchain_core.documents import Document
 
 from utils import const
 
@@ -39,3 +43,28 @@ class OpenAi:
         with get_openai_callback() as cb_handler:
             answer = llm(messages)
         return answer.content, cb_handler
+    
+    def summarize(self, llm: BaseLanguageModel, docs: list[Document]) -> tuple[str, OpenAICallbackHandler]:
+        prompt_template = """Write a concise Japanese summary of the following transcript of Youtube Video.
+
+    ============
+        
+    {text}
+
+    ============
+
+    ここから日本語で書いてね
+    必ず3段落以内の200文字以内で簡潔にまとめること:
+    """
+        PROMPT = PromptTemplate(template=prompt_template, input_variables=["text"])
+
+        with get_openai_callback() as cb_handler:
+            chain = load_summarize_chain( 
+                llm, # e.g. ChatOpenAI(temperature=0)
+                chain_type="stuff",
+                verbose=True,
+                prompt=PROMPT
+            )
+            response = chain({"input_documents": docs}, return_only_outputs=True)
+            
+        return response['output_text'], cb_handler

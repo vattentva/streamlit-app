@@ -8,6 +8,8 @@ streamlit-authenticator
 
 supabase
 bs4
+youtube-transcript-api
+pytube
 
 openai
 langchain

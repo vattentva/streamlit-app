@@ -17,6 +17,7 @@ sidebar = {
         # st.Page("llm/langchain_chat_app.py", title="LangChain QuickStart App"),
         st.Page("llm/langchain_openai.py", title="LangChain Chat Model"),
         st.Page("llm/website_summarize.py", title="Website Summarize"),
+        st.Page("llm/youtube_summarize.py", title="Youtube Summarize"),
     ],
 }
 

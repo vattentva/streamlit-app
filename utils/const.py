@@ -6,3 +6,4 @@ class LangchainConfig(Enum):
 class RequestType(Enum):
     CHAT = 2
     SUMMARY = 3
+    YOUTUBE = 4
