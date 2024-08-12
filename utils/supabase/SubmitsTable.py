@@ -1,32 +1,31 @@
 import streamlit as st
 from datetime import datetime, timedelta
 from utils.supabase.SupabaseClient import SupabaseClient
+from langchain_community.callbacks.openai_info import OpenAICallbackHandler
 
 class SubmitsTable(SupabaseClient):
     def __init__(self):
         super().__init__('submits')
 
-    def insert_prompt(
+    def logging_request(
             self,
             type: int,
             prompt: str,
             response: str,
-            user_name: str,
-            is_success: bool,
-            total_cost: float,
-            prompt_tokens: int,
-            completion_tokens: int,
+            callback_handler: OpenAICallbackHandler,
         ):
-        """submitsテーブルに新しいプロンプトを挿入する"""
+        """
+        submitsテーブルにAPIリクエストのログを記録
+        """
         return self.insert_data({
             'type': type,
             'prompt': prompt,
             'response': response,
-            'user_name': user_name,
-            'is_success': is_success,
-            'total_cost': total_cost,
-            'prompt_tokens': prompt_tokens,
-            'completion_tokens': completion_tokens,
+            'user_name': st.session_state.get('name', ''),
+            'is_success': True if response else False,
+            'total_cost': callback_handler.total_cost,
+            'prompt_tokens': callback_handler.prompt_tokens,
+            'completion_tokens': callback_handler.completion_tokens,
         })
     
     def select_usage_count(self):

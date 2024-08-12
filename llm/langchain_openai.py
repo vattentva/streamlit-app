@@ -1,4 +1,5 @@
 import streamlit as st
+from utils import const
 from utils.supabase.SubmitsTable import SubmitsTable
 from views.common import app, debug
 from config.log import setup
@@ -30,16 +31,7 @@ if user_input := st.chat_input("メッセージを送信する"):
         answer, handler = chat_model.get_answer(llm, st.session_state.messages)
     st.session_state.messages.append(AIMessage(content=answer))
 
-    client.insert_prompt(
-        type=2,
-        prompt=user_input,
-        response=answer,
-        user_name=st.session_state["name"],
-        is_success=True if answer else False,
-        total_cost=handler.total_cost,
-        prompt_tokens=handler.prompt_tokens,
-        completion_tokens=handler.completion_tokens,
-    )
+    client.logging_request(const.RequestType.CHAT.value, user_input, answer, handler)
 
     today_call_count = client.select_usage_count()
 

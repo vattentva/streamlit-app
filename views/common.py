@@ -8,7 +8,8 @@ def app(title='', top=False):
     if st.session_state['authentication_status']:
         if top:
             pages = [
-                { 'path': 'llm/langchain_openai.py', 'label': 'LangChain Chat Model'}
+                { 'path': 'llm/langchain_openai.py', 'label': 'LangChain Chat Model'},
+                { 'path': 'llm/website_summarize.py', 'label': 'Website Summarize'},
             ]
             for page in pages:
                 st.page_link(page['path'], label=page['label'])
