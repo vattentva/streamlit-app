@@ -6,6 +6,9 @@ streamlit-authenticator
 # streamlit-option-menu #==0.3.13
 # streamlit-tags #==1.2.8
 
+supabase
+bs4
+
 openai
 langchain
 langchain_community
@@ -13,7 +16,7 @@ langchain_openai
 # transformers
 # tensorflow
 # h5py
-# keras==2.11
+# keras
 # tf-keras
 # matplotlib
 # scikit-learn
@@ -21,7 +24,3 @@ langchain_openai
 # pandas_profiling
 # streamlit_pandas_profiling
 
-supabase
-# openai-whisper
-# yt_dlp
-# dashboard_utils
