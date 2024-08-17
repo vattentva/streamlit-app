@@ -10,6 +10,8 @@ supabase
 bs4
 youtube-transcript-api
 pytube
+PyPDF2
+qdrant_client
 
 openai
 langchain

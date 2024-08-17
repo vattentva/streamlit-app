@@ -14,13 +14,17 @@ client = SubmitsTable()
 helper.api_call_limit(client=client, type=const.RequestType.YOUTUBE.value)
 
 def get_document(url) -> list[Document]:
-    with st.spinner("Fetching Content ..."):
-        loader = YoutubeLoader.from_youtube_url(
-            url,
-            add_video_info=True,  # タイトルや再生数も取得できる
-            language=['en', 'ja']  # 英語→日本語の優先順位で字幕を取得
-        )
-        return loader.load()  # Document
+    try:
+        with st.spinner("Fetching Content ..."):
+            loader = YoutubeLoader.from_youtube_url(
+                url,
+                add_video_info=True,  # タイトルや再生数も取得できる
+                language=['en', 'ja']  # 英語→日本語の優先順位で字幕を取得
+            )
+            return loader.load()  # Document
+    except Exception as e:
+        st.error(f"Failed to fetch content: {str(e)}")
+        st.stop()
 
 model = OpenAi()
 llm = model.select_model()

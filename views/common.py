@@ -1,5 +1,6 @@
 import streamlit as st
 from config.auth import init_authenticator, login_form
+from utils import const
 
 def app(title='', top=False):
     st.title(title)
@@ -7,12 +8,8 @@ def app(title='', top=False):
     authenticator = init_authenticator()
     if st.session_state['authentication_status']:
         if top:
-            pages = [
-                { 'path': 'llm/langchain_openai.py', 'label': 'LangChain Chat Model'},
-                { 'path': 'llm/website_summarize.py', 'label': 'Website Summarize'},
-            ]
-            for page in pages:
-                st.page_link(page['path'], label=page['label'])
+            for page in const.LLM_PAGES:
+                st.page_link(page['path'], label=page['title'])
 
         with st.sidebar:
             st.write(f'User name: *{st.session_state["name"]}*')

@@ -78,7 +78,7 @@ with container:
 
         # session meesages clearing
         st.session_state.messages = [
-            SystemMessage(content=const.LangchainConfig.SYSTEM_MESSAGE.value)
+            SystemMessage(content=const.SYSTEM_MESSAGE)
         ]
 
 if answer:

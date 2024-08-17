@@ -12,7 +12,7 @@ from langchain_core.documents import Document
 from utils import const
 
 class OpenAi:
-    def __init__(self, system_message=const.LangchainConfig.SYSTEM_MESSAGE.value):
+    def __init__(self, system_message=const.SYSTEM_MESSAGE):
         self._system_message = system_message
         self.gpt_models = [
             'gpt-4o-mini',
@@ -54,7 +54,7 @@ class OpenAi:
     ============
 
     ここから日本語で書いてね
-    必ず3段落以内の200文字以内で簡潔にまとめること:
+    必ず3段落以内の500文字以内で簡潔にまとめること:
     """
         PROMPT = PromptTemplate(template=prompt_template, input_variables=["text"])
 

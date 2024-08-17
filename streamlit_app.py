@@ -1,5 +1,7 @@
 import streamlit as st
 
+from utils import const
+
 # カスタムCSSを適用
 hide_streamlit_style = """
 <style>
@@ -12,13 +14,7 @@ sidebar = {
     "Streamlit": [
         st.Page("login.py", title="Top")
     ],
-    "LLM": [
-        # st.Page("llm/basic_chat_app.py", title="ChatBot App"),
-        # st.Page("llm/langchain_chat_app.py", title="LangChain QuickStart App"),
-        st.Page("llm/langchain_openai.py", title="LangChain Chat Model"),
-        st.Page("llm/website_summarize.py", title="Website Summarize"),
-        st.Page("llm/youtube_summarize.py", title="Youtube Summarize"),
-    ],
+    "LLM": [st.Page(page['path'], title=page['title']) for page in const.LLM_PAGES],
 }
 
 pg = st.navigation(sidebar)
