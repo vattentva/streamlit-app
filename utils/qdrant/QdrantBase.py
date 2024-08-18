@@ -2,6 +2,7 @@ from typing import List
 from langchain_community.embeddings.openai import OpenAIEmbeddings
 from langchain_community.vectorstores import Qdrant
 from langchain_core.documents import Document
+from langchain_core.vectorstores.base import VectorStoreRetriever
 
 from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, VectorParams
@@ -42,7 +43,12 @@ class QdrantBase():
             path=const.QD_PATH,
             collection_name=const.QD_COLLECTION_NAME,
         )
-
+    
+    def get_retriever(self, k = 10) -> VectorStoreRetriever:
+        return self.get_vector_store().as_retriever(
+            search_type="similarity", # "mmr", "similarity_score_threshold"
+            search_kwargs={"k":k}    # 文書を何個取得するか (default: 4)
+    )
     
     def get_all_collections(self):
         return self.client.get_collections().collections
