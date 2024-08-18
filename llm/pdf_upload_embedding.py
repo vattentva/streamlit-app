@@ -14,8 +14,8 @@ from qdrant_client import QdrantClient
 
 app(title='PDF Upload & Embedding')
 
-# client = SubmitsTable()
-# helper.api_call_limit(client=client, type=const.RequestType.PDF.value)
+client = SubmitsTable()
+helper.api_call_limit(client=client, type=const.RequestType.PDF.value)
 
 # st.cache_resource.clear()
 @st.cache_resource
@@ -78,18 +78,23 @@ def page_ask_my_pdf():
 
         if answer:
             with response_container:
-                st.markdown("## Answer")
-                st.write(answer)
-                st.write(cb)
+                st.markdown("### Answer")
+                st.markdown(answer['result'])
 
-selection = st.sidebar.radio("Go to", ["upload", "ask", "search"])
-if selection == "upload":
+                source = answer['source_documents']
+                st.info(f"Note: Responses were generated from {len(source)} documents")
+                st.write(source)
+
+            client.logging_request(const.RequestType.PDF.value, query, answer['result'], cb)
+
+selection = st.sidebar.radio("Go to", ["Upload", "Question", "Search"])
+if selection == "Upload":
     st.header('PDFファイルのテキストをベクトルDBに保存')
     page_pdf_upload_and_build_vector_db()
-elif selection == "ask":
+elif selection == "Question":
     st.header("質問をする")
     page_ask_my_pdf()
-elif selection == "search":
+elif selection == "Search":
     st.header('ベクトルDB検索')
     if word := st.text_input('検索単語'):
         tmp = QdrantBase(get_qd_client())

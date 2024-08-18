@@ -6,7 +6,7 @@ from langchain_community.callbacks.manager import get_openai_callback
 from langchain_community.callbacks.openai_info import OpenAICallbackHandler
 from langchain.prompts import PromptTemplate
 from langchain.chains.summarize import load_summarize_chain
-from langchain.chains.retrieval_qa.base import RetrievalQA
+from langchain.chains.retrieval_qa.base import BaseRetrievalQA
 from langchain_core.language_models import BaseLanguageModel
 from langchain_core.documents import Document
 
@@ -70,7 +70,7 @@ class OpenAi:
             
         return response['output_text'], cb_handler
 
-    def question(self, qa: RetrievalQA, query: str):
+    def question(self, qa: BaseRetrievalQA, query: str):
         """
         RetrievelQA(ベクトルDBから取得した文書)+質問を投げて回答を取得する
         """
