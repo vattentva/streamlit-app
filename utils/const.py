@@ -17,4 +17,4 @@ LLM_PAGES = [
 
 # Qdrant
 QD_PATH = './storage/local'
-QD_COLLECTION_NAME = 'my_collection'
+QD_COLLECTION_NAME = 'streamlit_app_collection'

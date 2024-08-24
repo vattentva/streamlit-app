@@ -12,6 +12,7 @@ youtube-transcript-api
 pytube
 PyPDF2
 qdrant_client
+wordcloud
 
 openai
 langchain

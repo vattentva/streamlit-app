@@ -11,6 +11,8 @@ from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain.chains.retrieval_qa.base import (RetrievalQA, BaseRetrievalQA)
 
 from qdrant_client import QdrantClient
+from wordcloud import WordCloud
+import matplotlib.pyplot as plt
 
 app(title='PDF Upload & Embedding')
 
@@ -18,9 +20,12 @@ client = SubmitsTable()
 helper.api_call_limit(client=client, type=const.RequestType.PDF.value)
 
 # st.cache_resource.clear()
-@st.cache_resource
-def get_qd_client():
-    return QdrantClient(path=const.QD_PATH)
+# @st.cache_resource
+# def get_qd_client():
+#     return QdrantClient(
+#         path=const.QD_PATH,
+#         # url='', api_key=''
+#     )
 
 def get_pdf_text() -> List[str]:
     if uploaded_file := st.file_uploader(label='PDFファイルを選択', type='pdf'):
@@ -44,14 +49,13 @@ def page_pdf_upload_and_build_vector_db():
         pdf_text = get_pdf_text()
         if pdf_text:
             with st.spinner("Loading PDF ..."):
-                vdb = QdrantBase(get_qd_client())
-                vector_list = vdb.add_texts(pdf_text)
-                # vector_list = vdb.from_texts(pdf_text)
+                qd = QdrantBase()
+                vector_list = qd.add_texts(pdf_text)
                 st.write(vector_list)
 
 def build_qa_model(llm=None) -> BaseRetrievalQA:
-    vdb = QdrantBase(get_qd_client())
-    retriever = vdb.get_retriever()
+    qd = QdrantBase()
+    retriever = qd.get_retriever()
 
     return RetrievalQA.from_chain_type(
         llm=llm,
@@ -87,6 +91,25 @@ def page_ask_my_pdf():
 
             client.logging_request(const.RequestType.PDF.value, query, answer['result'], cb)
 
+def plot_wordcloud(texts: str):
+    # ワードクラウドの生成
+    wordcloud = WordCloud(
+        width=800,
+        height=400,
+        background_color='white',
+        font_path='./Arial Unicode.ttf'
+    ).generate(texts)
+
+    # ワードクラウドをプロット
+    fig, ax = plt.subplots()
+    ax.imshow(wordcloud, interpolation='bilinear')
+    ax.axis("off")
+
+    st.title("Word Cloud of Point Texts")
+    st.pyplot(fig)
+
+qd = QdrantBase()
+
 selection = st.sidebar.radio("Go to", ["Upload", "Question", "Search"])
 if selection == "Upload":
     st.header('PDFファイルのテキストをベクトルDBに保存')
@@ -96,8 +119,13 @@ elif selection == "Question":
     page_ask_my_pdf()
 elif selection == "Search":
     st.header('ベクトルDB検索')
-    if word := st.text_input('検索単語'):
-        tmp = QdrantBase(get_qd_client())
-        st.write(tmp.search(query=word))
+    if name := st.selectbox("Select collection name:", [] + qd.get_collections()):
+        word_list = [x.payload['page_content'] for x in qd.get_points()[0]]
+        words = " ".join(word_list)
+        plot_wordcloud(words)
+
+        # st.info(qd.get_points()[1])
+        # if word := st.text_input('検索単語'):
+        #     st.write(qd.search(query=word))
 
 debug()
